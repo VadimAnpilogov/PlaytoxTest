@@ -14,13 +14,21 @@ class MyThread implements Runnable{
 
     static synchronized void Transaction() {
         int numberAccount = (int) (Math.random() * listObj.size()-1);//Выбор счета, с которого будет осуществляться перевод
+        int sumMoney = (int) (Math.random() * listObj.get(numberAccount).Money);//Выбор суммы перевода
+        while (sumMoney==0){//Проверка, чтобы сумма перевода была > 0
+            if(listObj.get(numberAccount).Money==0){
+                numberAccount++;
+            }else sumMoney++;
+        }
+
+
         int numberAccountR;//Счет на который будет осуществляться перевод
         if(numberAccount==listObj.size()){
             numberAccountR = 0;
         }
         else numberAccountR = numberAccount + 1;
 
-        int sumMoney = (int) (Math.random() * listObj.get(numberAccount).Money);//Выбор суммы перевода
+
 
         listObj.get(numberAccount).Money = listObj.get(numberAccount).Money - sumMoney;
         listObj.get(numberAccountR).Money = listObj.get(numberAccountR).Money + sumMoney;
